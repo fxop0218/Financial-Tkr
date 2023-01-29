@@ -45,6 +45,21 @@ def info():
     return jsonify(data)
 
 
+@app.route("/login/<user>/<pwd>")
+def login(user: str, pwd: str):
+    return {"user": user, "password": pwd}
+
+
+@app.route("/register")
+def register():
+    return {"message": "register"}
+
+
+@app.route("/get_all_expenses")
+def get_all_expenses():
+    return {"message": "All expenses"}
+
+
 if __name__ == "__main__":
     load_dotenv()
     app.run(debug=True, port=5000, host="0.0.0.0")
