@@ -1,6 +1,15 @@
 import pandas as pd
+from dotenv import load_dotenv
 from flask_migrate import Migrate
-from flask import Flask, render_template, request, redirect, url_for
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    jsonify,
+    make_response,
+)
 from models import users, expenses
 from database import db
 
@@ -28,11 +37,14 @@ migrate.init_app(app, db)
 # Configuration of flask-wtf
 app.config["SECRET_KEY"] = "SECRET_KEY"  # Change in production service
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=30006, debug=True)
 
-
-@app.route("/")
 @app.route("/test", methods=["GET"])
 def info():
-    return {"message": "Test"}
+    if request.method == "GET":
+        data = {"Message": "test"}
+    return jsonify(data)
+
+
+if __name__ == "__main__":
+    load_dotenv()
+    app.run(debug=True, port=5000, host="0.0.0.0")
