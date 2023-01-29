@@ -1,31 +1,42 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 
 # from datetime import Date
-from database import Base
+from database import db
 
 
-# class Users(BaseModel):
-#     id: int
-#     username: str
-#     email: str
-#     password: str
-
-
-class users(Base):
+class users(db.Model):
     __tablename__ = "Users_"
-    id = Column(Integer, primary_key=True, nullable=False)
-    username = Column(String, nullable=False, unique=True)
-    email = Column(String, nullable=False, unique=True)
-    password = Column(String, nullable=False)
-    confirmed = Column(Boolean, default=False, nullable=False)
+    id = Column(db.Integer, primary_key=True, nullable=False)
+    username = Column(db.String, nullable=False, unique=True)
+    email = Column(db.String, nullable=False, unique=True)
+    password = Column(db.String, nullable=False)
+    confirmed = Column(db.Boolean, default=False, nullable=False)
+
+    def __str__(self) -> str:
+        return (
+            f"Id: {self.id} "
+            f"Username: {self.username} "
+            f"emial: {self.email} "
+            f"confirmed: {self.confirmed}"
+        )
 
 
-class expenses(Base):
+class expenses(db.Model):
     __tablename__ = "Expenses"
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    type_e = Column(Integer)
-    description = Column(String)
-    value = Column(Integer, nullable=False)
-    data = Column(DateTime, nullable=False)
-    recursive = Column(Boolean, nullable=False, default=False)
+    id = Column(db.Integer, primary_key=True)
+    name = Column(db.String)
+    type_e = Column(db.Integer)
+    description = Column(db.String)
+    value = Column(db.Integer, nullable=False)
+    data = Column(db.DateTime, nullable=False)
+    recursive = Column(db.Boolean, nullable=False, default=False)
+
+    def __str__(self) -> str:
+        return {
+            f"Id: {self.id} "
+            f"Name: {self.name} "
+            f"Description: {self.description} "
+            f"Value: {self.value} "
+            f"Data: {self.data} "
+            f"Recursive: {self.recursive}"
+        }

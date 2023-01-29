@@ -1,32 +1,38 @@
 import pandas as pd
-import ast
-from flask import Flask
-from flask_restful import Resource, Api, reqparse
-import models
-from database import engine, SessionLocal, Base
+from flask_migrate import Migrate
+from flask import Flask, render_template, request, redirect, url_for
+from models import users, expenses
+from database import db
 
-models.Base.metadata.create_all(bind=engine)
+app = Flask(__name__)
 
-# Initialize api
+# DB configuration
+
+USER_DB = "postgres"
+PASS_DB = "admin"
+URL_DB = "localhost"
+NAME_DB = "financial"
+FULL_URL_DB = f"postgresql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = FULL_URL_DB
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# If separate the classes in other files need this
+db.init_app(app)
+
+# Configurate flask-migrate
+
+migrate = Migrate()
+migrate.init_app(app, db)
+
+# Configuration of flask-wtf
+app.config["SECRET_KEY"] = "SECRET_KEY"  # Change in production service
+
 if __name__ == "__main__":
-    app = Flask(__name__)
-    app.run(debug=True)
-    api = Api(app)
+    app.run(host="0.0.0.0", port=30006, debug=True)
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.get("/")
-def test1():
-    return {"message": "1"}
-
-
-@app.get("/test123")
-def test():
-    return {"message": "Hello world"}
+@app.route("/")
+@app.route("/test", methods=["GET"])
+def info():
+    return {"message": "Test"}
