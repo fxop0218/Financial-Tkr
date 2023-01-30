@@ -5,7 +5,7 @@ from database import db
 
 
 class users(db.Model):
-    __tablename__ = "Users_"
+    __tablename__ = "users_"
     id = Column(db.Integer, primary_key=True, nullable=False)
     username = Column(db.String, nullable=False, unique=True)
     email = Column(db.String, nullable=False, unique=True)
@@ -22,7 +22,7 @@ class users(db.Model):
 
 
 class expenses(db.Model):
-    __tablename__ = "Expenses"
+    __tablename__ = "expenses"
     id = Column(db.Integer, primary_key=True)
     name = Column(db.String)
     type_e = Column(db.Integer)

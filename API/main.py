@@ -45,18 +45,23 @@ def info():
     return jsonify(data)
 
 
-@app.route("/login/<user>/<pwd>")
+@app.route("/login/<user>/<pwd>", methods=["GET"])
 def login(user: str, pwd: str):
-    return {"user": user, "password": pwd}
+    if request.method == "GET":
+        # TODO check if the user exists and return the id, if the user dosn't exist return 0
+        id = 0
+    return {"user": user, "password": pwd, "id": id}
 
 
 @app.route("/register")
 def register():
+    # TODO check if the username its used or the email its used
     return {"message": "register"}
 
 
 @app.route("/get_all_expenses")
 def get_all_expenses():
+    # Get all the expenses related with a user id
     return {"message": "All expenses"}
 
 
